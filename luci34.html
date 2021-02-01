@@ -1,0 +1,361 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>3d</title>
+<style>
+	* {
+		margin: 0;
+		padding: 0;
+	}	
+	body {
+		background: #471c72;
+		min-height: 100vh;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.container {
+		width: 500px;
+		height: 500px;
+		perspective: 900px;
+	}
+	.box {
+		position: relative;
+		top: 100px;
+		width: 500px;
+		height: 300px;
+		background: rgba(255,255,255,0.05);
+		transform-style: preserve-3d;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		transform: rotateX(0deg);
+		border-radius: 5px 5px 0 0;
+		box-shadow: 0 0 0 10px rgba(255,255,255,0.1) inset;
+		backface-visibility: hidden;
+		transition: 0.3s cubic-bezier(.99,1.43,.21,.86);
+		background-image: url("grid.png");
+	}
+	.box2{
+		width: 500px;
+		height: 100px;
+		background: rgba(255,255,255,0.1);
+		position: absolute;
+		bottom: -100px;
+		transform-origin: 250px 0px;
+		transform: rotateX(-80deg);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: 0 0 5px 5px;
+		transition: 0.3s cubic-bezier(.99,1.43,.21,.86);
+	}
+	.cir1,.cir2,.cir3,.cir4 {
+		transition: 0.4s cubic-bezier(1,.66,1,.64);
+	}
+	.cir1 {
+		width: 100px;
+		height: 100px;
+		border: 5px solid transparent;
+		border-left: 5px solid white;
+		border-right: 5px solid white;
+		border-radius: 100%;
+		position: absolute;
+	}
+	.cir2 {
+		width: 80px;
+		height: 80px;
+		border: 5px solid transparent;
+		border-left: 5px solid white;
+		border-right: 5px solid white;
+		border-radius: 100%;
+		position: absolute;
+	}
+	.cir3 {
+		width: 60px;
+		height: 60px;
+		border: 5px solid transparent;
+		border-left: 5px solid white;
+		border-right: 5px solid white;
+		border-radius: 100%;
+		position: absolute;
+	}
+	.cir4 {
+		width: 40px;
+		height: 40px;
+		border: 5px solid transparent;
+		border-left: 5px solid white;
+		border-right: 5px solid white;
+		border-radius: 100%;
+		position: absolute;
+	}	
+	.subx {
+		width: 450px;
+		height: 40px;
+		border-radius: 10px;
+		background: rgba(0,0,0,0.15);
+		box-shadow: 0 10px 30px rgba(0,0,0,0.4) inset;
+		display: grid;
+		grid-template-columns: auto auto auto auto;
+		
+	}
+	.ops {
+		margin-left: 33px;
+		margin-top: 5px;
+		font-family: montserrat;
+		width: 50px;
+		cursor: pointer;
+		height: 30px;
+		border-radius: 20px;
+		background: linear-gradient(rgba(255,255,255,1),rgba(255,255,255,0.3));
+		color: rgba(38,38,38,1.00);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.ops:active {
+		background: rgba(161,0,255,0.30);
+	}
+	.buttonz {
+		width: 100px;
+		height: 40px;
+		background: #142332;
+		border-radius: 10px;
+		position: absolute;
+		top: 100px;
+		box-shadow: 0 0 10px rgba(0,0,0,0.7) inset;
+	}
+	.inbtn {
+		width: 40px;
+		height: 30px;
+		background: linear-gradient(rgb(239, 239, 239),rgb(150, 150, 150));
+		border-radius: 10px 0px 0px 10px;
+		border: none;
+		position: relative;
+		margin: 5px;
+		cursor: pointer;
+		outline: none;
+		font-family: montserrat;
+		font-weight: bold;
+		color: rgba(34,34,34,1.00);
+		transition: 0.2s cubic-bezier(1,1.33,.39,.91);
+	}	
+	.tit1 {
+		position: absolute;
+		top: 25px;
+		left: 40px;
+		font-family: montserrat;
+		color: rgba(255,255,255,0.33);
+		transform: translateZ(100px);
+	}
+	.tit2 {
+		position: absolute;
+		top: 45px;
+		left: 40px;
+		font-family: montserrat;
+		color: rgba(255,255,255,0.13);
+		transform: translateZ(100px);
+		font-weight: lighter;
+		font-size: 11px;
+		word-spacing: 2px;
+	}	
+	.tit3 {
+		position: absolute;
+		top: 25px;
+		right: 38px;
+		font-family: montserrat;
+		color: rgba(255,255,255,0.33);
+		transform: translateZ(100px);
+		font-size: 13px;
+	}	
+	.glass {
+		position: absolute;
+		background: rgba(255,255,255,0.0);
+		transition: 0.2s ease;
+	}
+	.glass:nth-child(1) {
+		width: 500px;
+		height: 100px;
+		transform-origin: 250px 0px;
+		transform: rotateX(90deg);
+		top: 0px;
+	}
+	.glass:nth-child(2) {
+		height: 300px;
+		width: 100px;
+		transform-origin: 0px 50px;
+		transform: rotateY(-90deg);
+		left: 0px;
+	}
+	.glass:nth-child(3) {
+		height: 300px;
+		width: 100px;
+		transform-origin: 100px 0px;
+		transform: rotateY(90deg);
+		right: 0px;
+	}
+	.glass:nth-child(4) {
+		width: 500px;
+		height: 100px;
+		transform-origin: 0px 100px;
+		transform: rotateX(-90deg);
+		bottom: 0px;
+	}	
+</style>
+</head>
+
+<body>
+<div class="container">
+	<div class="box">
+		
+		<span class="glass"></span>
+		<span class="glass"></span>
+		<span class="glass"></span>
+		<span class="glass"></span>
+		
+		<h4 class="tit1">3D ILLUSTRATION</h4>
+		<h4 class="tit2">USING HTML5 AND CSS3</h4>
+		<h4 class="tit3">FOLLOW @LUCI.THE.DESIGNER</h4>
+		<span class="cir1"></span>
+		<span class="cir2"></span>
+		<span class="cir3"></span>
+		<span class="cir4"></span>		
+	<div class="box2">
+		<div class="subx">
+			<span class="ops" onClick="fun1()">1</span>
+			<span class="ops" onClick="fun2()">2</span>
+			<span class="ops" onClick="fun3()">3</span>
+			<span class="ops" onClick="reset()">4</span>
+		</div>
+	</div>		
+	</div>
+</div>
+<div class="buttonz">
+	<button class="inbtn" onClick="chan()">2D</button>
+</div>
+<script>
+	function fun3() {
+		let el1 = document.querySelector(".cir1");
+		let el2 = document.querySelector(".cir2");
+		let el3 = document.querySelector(".cir3");
+		let el4 = document.querySelector(".cir4");
+		
+		el1.style.transform = "translateZ(0px)";
+		el1.style.opacity = "0.4";
+		setTimeout(function(){
+			el2.style.transform = "translateZ(-20px)";
+			el2.style.opacity = "0.3";
+		},400);
+		setTimeout(function(){
+			el3.style.transform = "translateZ(-30px)";
+			el3.style.opacity = "0.2";
+		},600);
+		setTimeout(function(){
+			el4.style.transform = "translateZ(-40px)";
+			el4.style.opacity = "0.1";
+		},800);
+		
+	}
+	function fun1() {
+		let el1 = document.querySelector(".cir1");
+		let el2 = document.querySelector(".cir2");
+		let el3 = document.querySelector(".cir3");
+		let el4 = document.querySelector(".cir4");
+		
+		el1.style.transform = "translateZ(0px)";
+		el1.style.opacity = "0.1";
+		setTimeout(function(){
+			el2.style.transform = "translateZ(20px)";
+			el2.style.opacity = "0.2";
+		},400);
+		setTimeout(function(){
+			el3.style.transform = "translateZ(30px)";
+			el3.style.opacity = "0.3";
+		},600);
+		setTimeout(function(){
+			el4.style.transform = "translateZ(40px)";
+			el4.style.opacity = "0.4";
+		},800);		
+	}
+	function fun2() {
+		let el1 = document.querySelector(".cir1");
+		let el2 = document.querySelector(".cir2");
+		let el3 = document.querySelector(".cir3");
+		let el4 = document.querySelector(".cir4");	
+		
+		el1.style.transform = "rotateY(10deg)";
+		el1.style.opacity = "1";
+		setTimeout(function(){
+			el2.style.transform = "rotateY(20deg)";
+			el2.style.opacity = "1";
+		},200);
+		setTimeout(function(){
+			el3.style.transform = "rotateY(30deg)";
+			el3.style.opacity = "1";
+		},400);
+		setTimeout(function(){
+			el4.style.transform = "rotateY(40deg)";
+			el4.style.opacity = "1";
+		},600);		
+	}
+	function reset() {
+		let el1 = document.querySelector(".cir1");
+		let el2 = document.querySelector(".cir2");
+		let el3 = document.querySelector(".cir3");
+		let el4 = document.querySelector(".cir4");
+		
+
+		el1.style.transform = "rotateY(0deg)rotateX(0deg) translateZ(0px)";
+		el1.style.opacity = "1";
+		setTimeout(function(){
+			el2.style.transform = "rotateY(0deg) rotateX(0deg) translateZ(0px)";
+			el2.style.opacity = "1";
+		},200);
+		setTimeout(function(){
+			el3.style.transform = "rotateY(0deg) rotateX(0deg) translateZ(0px)";
+			el3.style.opacity = "1";
+		},400);
+		setTimeout(function(){
+			el4.style.transform = "rotateY(0deg) rotateX(0deg) translateZ(0px)";
+			el4.style.opacity = "1";
+		},600);		
+	}
+	function chan() {
+		let el1 = document.querySelector(".inbtn");
+		let rr = document.querySelector(".box");
+		let gg = document.querySelector(".box2");
+		let glas = document.getElementsByClassName("glass");
+		
+		if(el1.innerHTML == "2D") {
+			el1.style.left = "50px";
+			el1.style.borderRadius = "0px 10px 10px 0px";
+			el1.innerHTML = "3D";
+			el1.style.color = "#3b8e31";
+			
+			rr.style.transform = "rotateX(60deg)";
+			gg.style.transform = "rotateX(-45deg)";
+			
+			for(let i = 0; i < 4;i++) {
+				glas[i].style.background = "rgba(255,255,255,0.010)";	
+			}
+			
+
+		}else {
+			el1.style.left = "0px";
+			el1.style.borderRadius = "10px 0px 0px 10px";			
+			el1.innerHTML = "2D";
+			el1.style.color = "rgba(34,34,34,1.00)";	
+			
+			rr.style.transform = "rotateX(0deg)";
+			gg.style.transform = "rotateX(-80deg)";
+			
+			for(let i = 0; i < 4;i++) {
+				glas[i].style.background = "rgba(255,255,255,0.0)";	
+			}
+			
+		}
+	}
+</script>
+</body>
+</html>
